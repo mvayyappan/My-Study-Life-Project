@@ -91,10 +91,22 @@
     </div>
 
     <script>
-        // Check if already logged in
-        if (isLoggedIn()) {
-            window.location.href = 'quiz_selection.html';
-        }
+        // Check if already logged in — validate token with backend to avoid stale tokens
+        (async function validateTokenAndRedirect() {
+            if (isLoggedIn()) {
+                try {
+                    const check = await getCurrentUser();
+                    if (check.success) {
+                        window.location.href = 'quiz_selection.html';
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Token validation error:', e);
+                }
+                // Token invalid or validation failed — remove it so user can login
+                try { removeToken(); } catch (e) { /* ignore */ }
+            }
+        })();
 
         // Handle form submission
         document.getElementById('loginForm').addEventListener('submit', async (e) => {

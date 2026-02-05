@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notes Workspace - My Study Life</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/my_notes.css">
+</head>
+
+<body class="dash-body">
+    <nav class="qb-nav">
+        <a href="dashboard.html" class="logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>My Study Life</span>
+        </a>
+        <ul class="nav_links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="materials.html">Materials</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="notes.html" class="active">Notes</a></li>
+            <li><a href="logged_out.html" class="logout-btn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="workspace-main">
+        <div class="container">
+            <div class="search-filter-section">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search your notes...">
+                </div>
+                <div class="filter-box">
+                    <select id="sort-filter">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="star">Starred</option>
+                        <option value="az">A - Z</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+           
+            <div class="editor-section">
+                <div class="note-editor-card">
+                    <div class="editor-row">
+                        <input type="text" class="input-field title-input" placeholder="Note Title">
+                    </div>
+                    <div class="editor-row">
+                        <textarea class="textarea-field" placeholder="Write your note here..."></textarea>
+                    </div>
+                    <div class="editor-footer">
+                        <div class="color-picker-group">
+                            <label>Note Color:</label>
+                            <input type="color" id="note-color-picker" value="#fff7b1" class="color-picker-btn">
+                        </div>
+                        <button class="add-note-btn">Add Note</button>
+                    </div>
+                </div>
+            </div>
+
+         
+            <section class="notes-grid-section">
+                <div class="section-header">
+                    <h2>My Notes</h2>
+                </div>
+                <div class="notes-grid">
+        
+                    <div class="note-card bg-pink">
+                        <div class="card-left-accent"></div>
+                        <div class="card-content">
+                            <h3>Money</h3>
+                            <div class="card-actions">
+                                <span class="star-btn"><i class="fa-regular fa-star"></i></span>
+                                <span><i class="fa-solid fa-pencil"></i></span>
+                                <span><i class="fa-regular fa-trash-can"></i></span>
+                            </div>
+                            <p class="note-text">I give 400 money to my FRD -- jhon--</p>
+                            <p class="note-date">Created: 24-01-2026</p>
+                        </div>
+                    </div>
+  
+                    <div class="note-card bg-blue">
+                        <div class="card-left-accent"></div>
+                        <div class="card-content">
+                            <h3>travel</h3>
+                            <div class="card-actions">
+                                <span class="star-btn"><i class="fa-regular fa-star"></i></span>
+                                <span><i class="fa-solid fa-pencil"></i></span>
+                                <span><i class="fa-regular fa-trash-can"></i></span>
+                            </div>
+                            <p class="note-text">my office tour 01/04/2026</p>
+                            <p class="note-date">Created: 24-01-2026</p>
+                        </div>
+                    </div>
+       
+                    <div class="note-card bg-purple">
+                        <div class="card-left-accent"></div>
+                        <div class="card-content">
+                            <h3>task</h3>
+                            <div class="card-actions">
+                                <span class="star-btn"><i class="fa-regular fa-star"></i></span>
+                                <span><i class="fa-solid fa-pencil"></i></span>
+                                <span><i class="fa-regular fa-trash-can"></i></span>
+                            </div>
+                            <p class="note-text">tommorow a test in eng to scince one mark</p>
+                            <p class="note-date">Created: 24-01-2026</p>
+                        </div>
+                    </div>
+  
+                    <div class="note-card bg-yellow">
+                        <div class="card-left-accent"></div>
+                        <div class="card-content">
+                            <h3>Tamil</h3>
+                            <div class="card-actions">
+                                <span class="star-btn"><i class="fa-regular fa-star"></i></span>
+                                <span><i class="fa-solid fa-pencil"></i></span>
+                                <span><i class="fa-regular fa-trash-can"></i></span>
+                            </div>
+                            <p class="note-text">தமிழக வரலாறு என்பது முற்கற்காலம் முதல் தற்காலம் வரை, உலகின் பழமையான...
+                            </p>
+                            <p class="note-date">Created: 24-01-2026</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="notes-stats-section">
+                <div class="section-header">
+                    <h2>Notes States</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">65</div>
+                        <div class="stat-label">Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">480</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">24-01-2026</div>
+                        <div class="stat-label">Created</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">24-01-2026</div>
+                        <div class="stat-label">Last Edited</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+    <div id="update-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Note</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-row">
+                    <label>Note Title</label>
+                    <input type="text" id="modal-note-title" class="input-field" placeholder="Note Title">
+                </div>
+                <div class="modal-row">
+                    <label>Note Content</label>
+                    <textarea id="modal-note-content" class="textarea-field"
+                        placeholder="Write your note here..."></textarea>
+                </div>
+                <div class="modal-row">
+                    <label>Note Color</label>
+                    <input type="color" id="modal-note-color" class="color-picker-btn">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-update">Update Changes</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Link</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="faq.html">FAQs & Help</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <div><i class="fa-solid fa-location-dot"></i> 111/1,Kamarajar Street, Chennai</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 9360649867</div>
+                    <div><i class="fa-solid fa-envelope"></i> help@mystudylife.com</div>
+                </div>
+                <div class="social-icons-footer">
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Subscribe to our Newsletter</h3>
+                <div class="newsletter-box">
+                    <p>Subscribe now and join our growing community of learners committed to lifelong education!</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+                <div class="copyright">
+                    &copy; My Study Life, All Right Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

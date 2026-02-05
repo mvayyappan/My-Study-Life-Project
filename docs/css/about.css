@@ -1,0 +1,277 @@
+@import url('style.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #5b7fd8 0%, #7b6ab8 50%, #9b5fa8 100%);
+  min-height: 100vh;
+}
+
+
+
+
+
+
+.hero-section {
+  text-align: center;
+  padding: 80px 20px 60px;
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 52px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section p {
+  font-size: 22px;
+  opacity: 0.95;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+
+.story-section {
+  background: white;
+  border-radius: 20px;
+  padding: 60px 50px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.section-icon {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-icon .fa-book-open {
+  color: #6366f1;
+}
+
+.section-icon .fa-gem {
+  color: #ec4899;
+}
+
+.section-icon .fa-users {
+  color: #0ea5e9;
+}
+
+.story-text {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+
+.mission-vision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.mv-card {
+  background: white;
+  border-radius: 20px;
+  padding: 50px 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.mv-icon {
+  font-size: 70px;
+  margin-bottom: 25px;
+}
+
+.mv-icon .fa-bullseye {
+  color: #ef4444;
+}
+
+.mv-icon .fa-star {
+  color: #f59e0b;
+}
+
+.mv-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.mv-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #666;
+}
+
+
+.values-section {
+  background: white;
+  border-radius: 20px;
+  padding: 60px 50px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.value-card {
+  text-align: center;
+  padding: 30px 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  transition: all 0.3s;
+}
+
+.value-card:hover {
+  background: linear-gradient(135deg, #5b7fd8, #9b5fa8);
+  color: white;
+  transform: translateY(-5px);
+}
+
+.value-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.value-icon .fa-graduation-cap {
+  color: #4f46e5;
+}
+
+.value-icon .fa-handshake {
+  color: #10b981;
+}
+
+.value-icon .fa-lightbulb {
+  color: #f59e0b;
+}
+
+.value-icon .fa-graduation-cap {
+  color: #3b82f6;
+}
+
+.value-icon .fa-handshake {
+  color: #10b981;
+}
+
+.value-icon .fa-lightbulb {
+  color: #f59e0b;
+}
+
+.value-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.value-text {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+.team-section {
+  background: white;
+  border-radius: 20px;
+  padding: 60px 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.team-member {
+  text-align: center;
+}
+
+.member-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.member-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.member-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.member-role {
+  font-size: 15px;
+  color: #5b7fd8;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.member-bio {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+
+@media (max-width: 768px) {
+  .story-section,
+
+  .story-section,
+  .values-section,
+  .team-section {
+    padding: 40px 30px;
+  }
+
+  .mission-vision-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}

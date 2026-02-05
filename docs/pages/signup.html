@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../css/sign_up.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <script src="../js/api.js"></script>
+  </head>
+
+  <body>
+    <div class="split-screen">
+      <div class="left-panel">
+        <div class="left-content">
+          <div class="logo-large">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <h1>MY STUDY LIFE</h1>
+          <p class="tagline">Build Your Future, One Step at a Time</p>
+
+          <div class="features-list">
+            <div class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span>Study Materials</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span>Expert Guides & Notes</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span>Mock Tests</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span>Track Your Progress</span>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat-item">
+              <div class="stat-number">10,000+</div>
+              <div class="stat-label">Students Enrolled</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Success Stories</div>
+            </div>
+          </div>
+
+          <p class="mission">
+            "Empowering students from grades 6-10 and competitive exam aspirants
+            to achieve their educational dreams through quality resources and
+            guidance."
+          </p>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="login-box">
+          <h2>Create Account</h2>
+          <p class="subtitle">Sign up to start your learning journey</p>
+
+          <form id="signupForm">
+            <div class="input-group">
+              <label>Name</label>
+              <input type="text" id="fullName" placeholder="Enter your name" required />
+            </div>
+
+            <div class="input-group">
+              <label>Email Address</label>
+              <input type="email" id="email" placeholder="Email@example.com" required />
+            </div>
+
+            <div class="input-group">
+              <label>Password</label>
+              <input type="password" id="password" placeholder="Create a strong password" required minlength="8" />
+            </div>
+
+            <div id="errorMsg" style="color: red; text-align: center; margin-bottom: 10px; display: none;"></div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="terms" required />
+              <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
+            </div>
+
+            <button type="submit" class="btn">Create Account</button>
+          </form>
+
+          <div class="signup">
+            Already have an account?
+            <a href="login.html">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Check if already logged in
+      if (isLoggedIn()) {
+        window.location.href = 'quiz_selection.html';
+      }
+
+      // Handle signup form
+      document.getElementById("signupForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const fullName = document.getElementById("fullName").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        // Show loading state
+        const btn = e.target.querySelector('button');
+        const btnText = btn.textContent;
+        btn.textContent = 'Creating Account...';
+        btn.disabled = true;
+
+        // Clear previous error
+        errorMsg.style.display = 'none';
+        errorMsg.textContent = '';
+
+        const result = await signup(email, password, fullName);
+        if (result.success) {
+          alert("Account created! Redirecting to login...");
+          window.location.href = "login.html";
+        } else {
+          errorMsg.textContent = result.error || 'Signup failed. Please try again.';
+          errorMsg.style.display = "block";
+          btn.textContent = btnText;
+          btn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

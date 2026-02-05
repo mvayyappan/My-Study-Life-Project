@@ -22,10 +22,19 @@ def get_current_user_id(authorization: Optional[str] = Header(None), db: Session
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Missing authorization header"
         )
-    
-    # Extract token from "Bearer <token>"
-    token = authorization.replace("Bearer ", "")
-    
+
+    # Log header for debugging (will help diagnose invalid token issues)
+    try:
+        print(f"[quiz.get_current_user_id] Authorization header received: {authorization}")
+    except Exception:
+        pass
+
+    # Extract token robustly: support both 'Bearer <token>' and raw token
+    parts = authorization.split()
+    if len(parts) == 0:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization header")
+    token = parts[-1]
+
     email = decode_token(token)
     if not email:
         raise HTTPException(

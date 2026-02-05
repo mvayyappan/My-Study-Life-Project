@@ -35,4 +35,8 @@ def decode_token(token: str) -> str | None:
             return None
         return email
     except JWTError:
+        try:
+            print(f"[security.decode_token] Failed to decode token: {token[:20]}...")
+        except Exception:
+            pass
         return None

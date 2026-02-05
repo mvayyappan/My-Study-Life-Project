@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <script src="../js/api.js"></script>
+</head>
+
+<body>
+    <div class="split-screen">
+        <div class="left-panel">
+            <div class="left-content">
+                <div class="logo-large">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h1>MY STUDY LIFE</h1>
+                <p class="tagline">Build Your Future, One Step at a Time</p>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Study Materials</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Expert Guides & Notes</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Mock Tests</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Track Your Progress</span>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Aspirants Enrolled</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Success Stories</div>
+                    </div>
+                </div>
+
+                <p class="mission">
+                    "Empowering students from grades 6-10 and competitive exam aspirants
+                    to achieve their educational dreams through quality resources and
+                    guidance."
+                </p>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-box">
+                <div class="logo"></div>
+                <h2>Sign In</h2>
+                <p class="subtitle">Access your account</p>
+
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required />
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required minlength="8" />
+                    </div>
+
+                    <div id="errorMsg" style="color: red; text-align: center; margin-bottom: 10px; display: none;"></div>
+
+                    <button type="submit" class="btn">Sign in</button>
+                </form>
+
+                <div class="divider">――― OR ―――</div>
+
+                <div class="signup">
+                    <span>Don't have an account?</span>
+                    <a href="signup.html">Create Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if already logged in
+        if (isLoggedIn()) {
+            window.location.href = 'quiz_selection.html';
+        }
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Clear previous error
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+
+            // Show loading state
+            const btn = e.target.querySelector('button');
+            const btnText = btn.textContent;
+            btn.textContent = 'Signing in...';
+            btn.disabled = true;
+
+            // Call login API
+            const result = await login(email, password);
+
+            if (result.success) {
+                // Login successful - redirect
+                window.location.href = 'quiz_selection.html';
+            } else {
+                // Show error
+                errorMsg.textContent = result.error || 'Login failed. Please try again.';
+                errorMsg.style.display = 'block';
+                btn.textContent = btnText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

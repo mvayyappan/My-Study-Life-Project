@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - My Study Life</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="../js/api.js"></script>
+    <style>
+        body { background: #f5f5f5; font-family: 'Inter', sans-serif; }
+        
+        .quiz-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .quiz-header-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .quiz-title { font-size: 20px; font-weight: 600; }
+        .quiz-timer { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .timer-warning { color: #ff6b6b; }
+        .timer-danger { color: #ff6b6b; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .container { max-width: 900px; margin: 20px auto; padding: 20px; }
+        
+        .question-container {
+            background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px; margin-bottom: 20px;
+        }
+        
+        .question-number { color: #667eea; font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+        .question-text { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 30px; line-height: 1.6; }
+        
+        .options-grid { display: grid; gap: 12px; }
+        .option {
+            padding: 15px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;
+            background: white; transition: all 0.3s ease; font-size: 15px; display: flex; align-items: center; gap: 12px;
+        }
+        .option:hover { border-color: #667eea; background: #f5f7ff; }
+        .option input[type="radio"] { cursor: pointer; width: 20px; height: 20px; }
+        .option.selected { border-color: #667eea; background: #f5f7ff; }
+        .option.correct { border-color: #51cf66; background: #f1fce4; }
+        .option.incorrect { border-color: #ff6b6b; background: #ffe0e0; }
+        .option.disabled { cursor: not-allowed; opacity: 0.6; }
+        
+        .navigation {
+            display: flex; gap: 10px; justify-content: space-between; margin-top: 30px;
+        }
+        .btn-nav { padding: 12px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
+        .btn-prev { background: #e0e0e0; color: #333; }
+        .btn-prev:hover { background: #d0d0d0; }
+        .btn-next { background: #667eea; color: white; }
+        .btn-next:hover { background: #5568d3; }
+        .btn-submit { background: #51cf66; color: white; width: 100%; }
+        .btn-submit:hover { background: #40c057; }
+        .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .question-progress { text-align: center; margin-top: 20px; color: #666; font-size: 14px; }
+        .progress-bar { height: 6px; background: #e0e0e0; border-radius: 3px; margin: 10px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: #667eea; transition: width 0.3s ease; }
+        
+        .results-screen {
+            background: white; border-radius: 12px; padding: 40px; text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .results-score { font-size: 60px; font-weight: bold; color: #667eea; margin: 20px 0; }
+        .results-title { font-size: 28px; font-weight: 600; color: #333; margin-bottom: 20px; }
+        .results-subtitle { font-size: 16px; color: #666; margin-bottom: 30px; }
+        .results-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
+        .stat-box { padding: 20px; background: #f5f5f5; border-radius: 8px; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #667eea; }
+        .stat-label { font-size: 12px; color: #666; margin-top: 5px; text-transform: uppercase; }
+        .btn-home { background: #667eea; color: white; padding: 12px 30px; border: none; border-radius: 8px;
+            font-size: 16px; cursor: pointer; margin-top: 20px; }
+        .btn-home:hover { background: #5568d3; }
+        
+        .loading { text-align: center; padding: 60px 20px; }
+        .spinner { border: 4px solid #e0e0e0; border-top: 4px solid #667eea; border-radius: 50%;
+            width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="quiz-header">
+        <div class="quiz-header-content">
+            <div class="quiz-title" id="headerTitle">Loading Quiz...</div>
+            <div class="quiz-timer">
+                <i class="fa-solid fa-clock"></i>
+                <span id="timerDisplay">00:00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <p>Loading quiz questions...</p>
+        </div>
+
+        <!-- Quiz Content -->
+        <div id="quizContent" style="display: none;">
+            <div class="question-container">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options-grid" id="optionsGrid"></div>
+            </div>
+
+            <div class="question-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">Question 0 of 0</p>
+            </div>
+
+            <div class="navigation">
+                <button class="btn-nav btn-prev" onclick="previousQuestion()" id="prevBtn">
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                </button>
+                <button class="btn-nav btn-next" onclick="nextQuestion()" id="nextBtn">
+                    Next <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <button class="btn-submit" onclick="submitQuizHandler()" id="submitBtn" style="display: none; width: 100%; margin-top: 20px;">
+                <i class="fa-solid fa-check"></i> Submit Quiz
+            </button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" style="display: none;" class="results-screen">
+            <div class="results-title" id="resultsTitle">Quiz Completed!</div>
+            <div class="results-score" id="scoreDisplay">0%</div>
+            <div class="results-subtitle" id="scoreMessage">Ready to learn more?</div>
+            
+            <div class="results-stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="correctStat">0</div>
+                    <div class="stat-label">Correct</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="incorrectStat">0</div>
+                    <div class="stat-label">Incorrect</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="timeTakenStat">0s</div>
+                    <div class="stat-label">Time Taken</div>
+                </div>
+            </div>
+            
+            <button class="btn-home" onclick="goHome()">
+                <i class="fa-solid fa-home"></i> Back to Quiz Selection
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let quizId = null;
+        let quizData = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let timeStarted = 0;
+        let timerInterval = null;
+
+        // Initialize
+        async function initQuiz() {
+            // Check authentication
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Get quiz ID from URL or localStorage
+            const params = new URLSearchParams(window.location.search);
+            quizId = params.get('id') || localStorage.getItem('currentQuizId');
+            
+            if (!quizId) {
+                alert('No quiz selected!');
+                window.location.href = 'quiz_selection.html';
+                return;
+            }
+
+            // Load quiz data
+            await loadQuizData();
+        }
+
+        async function loadQuizData() {
+            try {
+                const result = await getQuizWithQuestions(quizId);
+                if (result.success) {
+                    quizData = result.data;
+                    timeStarted = Date.now();
+                    initializeQuiz();
+                } else {
+                    alert('Failed to load quiz: ' + result.error);
+                    window.location.href = 'quiz_selection.html';
+                }
+            } catch (error) {
+                console.error('Error loading quiz:', error);
+                alert('Error loading quiz');
+                window.location.href = 'quiz_selection.html';
+            }
+        }
+
+        function initializeQuiz() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('quizContent').style.display = 'block';
+            
+            // Set title
+            document.getElementById('headerTitle').textContent = quizData.title;
+            
+            // Initialize answers object
+            quizData.questions.forEach((_, idx) => {
+                userAnswers[idx] = null;
+            });
+
+            // Start timer
+            startTimer();
+            
+            // Display first question
+            displayQuestion(0);
+        }
+
+        function displayQuestion(index) {
+            currentQuestionIndex = index;
+            const question = quizData.questions[index];
+            
+            // Update question number and text
+            document.getElementById('questionNumber').textContent = `Question ${index + 1} of ${quizData.questions.length}`;
+            document.getElementById('questionText').textContent = question.question_text;
+            
+            // Display options
+            const optionsGrid = document.getElementById('optionsGrid');
+            const options = [
+                { text: question.option_a, value: 'a' },
+                { text: question.option_b, value: 'b' },
+                { text: question.option_c, value: 'c' },
+                { text: question.option_d, value: 'd' }
+            ];
+
+            optionsGrid.innerHTML = options.map((opt, idx) => `
+                <label class="option" id="option-${opt.value}">
+                    <input type="radio" name="answer" value="${opt.value}" 
+                        ${userAnswers[index] === opt.value ? 'checked' : ''} 
+                        onchange="selectAnswer('${opt.value}')">
+                    <span>${opt.text}</span>
+                </label>
+            `).join('');
+
+            // Highlight selected option
+            if (userAnswers[index]) {
+                document.getElementById(`option-${userAnswers[index]}`).classList.add('selected');
+            }
+
+            // Update progress
+            updateProgress();
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.display = index === 0 ? 'none' : 'flex';
+            document.getElementById('nextBtn').style.display = index === quizData.questions.length - 1 ? 'none' : 'flex';
+            document.getElementById('submitBtn').style.display = index === quizData.questions.length - 1 ? 'block' : 'none';
+        }
+
+        function selectAnswer(value) {
+            userAnswers[currentQuestionIndex] = value;
+            const optionLabel = document.getElementById(`option-${value}`);
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            optionLabel.classList.add('selected');
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / quizData.questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${quizData.questions.length}`;
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                displayQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.questions.length - 1) {
+                displayQuestion(currentQuestionIndex + 1);
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - timeStarted) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('timerDisplay').textContent = 
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 100);
+        }
+
+        async function submitQuizHandler() {
+            // Stop timer
+            clearInterval(timerInterval);
+            const timeTaken = Math.floor((Date.now() - timeStarted) / 1000);
+
+            // Calculate score and prepare answers in correct format
+            let correctCount = 0;
+            const answersDict = {};
+            
+            quizData.questions.forEach((question, idx) => {
+                const userAnswer = userAnswers[idx];
+                const isCorrect = userAnswer === question.correct_answer;
+                
+                if (isCorrect) correctCount++;
+                
+                // Convert to dict format: { "question_id": "answer_letter" }
+                answersDict[question.id] = userAnswer || '';
+            });
+
+            // Submit to API
+            try {
+                const result = await submitQuizAPI(quizId, answersDict);
+                if (result.success) {
+                    showResults(result.data, correctCount, timeTaken);
+                } else {
+                    alert('Error submitting quiz: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error submitting quiz:', error);
+                alert('Error submitting quiz');
+            }
+        }
+
+        function showResults(resultData, correctCount, timeTaken) {
+            const totalQuestions = quizData.questions.length;
+            const incorrectCount = totalQuestions - correctCount;
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+
+            // Hide quiz, show results
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            // Update results display
+            document.getElementById('scoreDisplay').textContent = percentage + '%';
+            
+            if (percentage >= 80) {
+                document.getElementById('scoreMessage').textContent = 'Excellent! 🎉';
+            } else if (percentage >= 60) {
+                document.getElementById('scoreMessage').textContent = 'Good job! 👍';
+            } else if (percentage >= 40) {
+                document.getElementById('scoreMessage').textContent = 'Keep practicing! 💪';
+            } else {
+                document.getElementById('scoreMessage').textContent = 'Try again! 📚';
+            }
+
+            document.getElementById('correctStat').textContent = correctCount;
+            document.getElementById('incorrectStat').textContent = incorrectCount;
+            document.getElementById('timeTakenStat').textContent = 
+                `${Math.floor(timeTaken / 60)}m ${timeTaken % 60}s`;
+        }
+
+        function goHome() {
+            window.location.href = 'quiz_selection.html';
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+
+</body>
+</html>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Link</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="#">FAQs & Help</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <div><i class="fa-solid fa-location-dot"></i> 111/1,Kamarajar Street, Chennai</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 9360649867</div>
+                    <div><i class="fa-solid fa-envelope"></i> help@mystudylife.com</div>
+                </div>
+                <div class="social-icons-footer">
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Subscribe to our Newsletter</h3>
+                <div class="newsletter-box">
+                    <p>Subscribe now and join our growing community of learners!</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+                <div class="copyright">&copy; My Study Life, All Right Reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

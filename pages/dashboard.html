@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - My Study Life</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="../js/api.js"></script>
+</head>
+
+<body>
+
+    <nav class="dash-nav">
+        <a href="../index.html" class="logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>My Study Life</span>
+        </a>
+        <ul class="nav_links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="standard_materials.html">Materials</a></li>
+            <li><a href="quiz_selection.html">Quiz</a></li>
+            <li><a href="my_notes.html">Notes</a></li>
+            <li><a href="logout.html" class="logout-btn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="dashboard-hero">
+        <div class="container hero-container">
+            <div class="hero-text">
+                <p class="welcome-tag">COMPETITIVE EXAM PORTAL</p>
+                <h1>Empowering <span>Aspirants</span> to reach their goals.</h1>
+                <p class="hero-desc">Access top-tier resources for TNPSC, Banking, Railways, and SSC exams. Your path to
+                    a government career begins with focused preparation.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary"
+                        onclick="document.getElementById('tnpsc').scrollIntoView({behavior: 'smooth'})">Get
+                        Started</button>
+                    <button class="btn-secondary">View Materials</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-frame">
+                    <img style="border-radius:100%;"
+                        src="../assets/images/main.jpeg"
+                        alt="Aspirant Profile">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tnpsc" class="path-section">
+        <div class="container journey-row">
+            <div class="journey-text">
+                <span class="path-label">PATH 02</span>
+                <h2>TNPSC Exam</h2>
+                <p>Master the Tamil Nadu Public Service Commission exams. We provide structured notes, current affairs,
+                    and previous year question papers specifically for Group 1, 2, and 4 services.</p>
+                <div class="standards-badge">Group 1 • 2 • 4</div>
+                <button class="path-btn" onclick="window.location.href='tnpsc.html'">Learn<i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="journey-image">
+                <img src="../assets/images/Screenshot 2026-01-19 204529.png" alt="TNPSC Exam Prep">
+            </div>
+        </div>
+    </section>
+
+    <section id="bank" class="path-section alt-bg">
+        <div class="container journey-row reverse">
+            <div class="journey-text">
+                <span class="path-label">PATH 03</span>
+                <h2>Bank Exams</h2>
+                <p>Excel in SBI, IBPS, and RBI competitive exams. Access comprehensive materials for Quantitative
+                    Aptitude, Reasoning, and Banking Awareness to stay ahead of the curve.</p>
+                <div class="standards-badge">IBPS • SBI • RBI</div>
+                <button class="path-btn" onclick="window.location.href='bank.html'">Learn<i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="journey-image">
+                <img src="../assets/images/Bank.jpeg" alt="Bank Exam Prep">
+            </div>
+        </div>
+    </section>
+
+    <section id="railway" class="path-section">
+        <div class="container journey-row">
+            <div class="journey-text">
+                <span class="path-label">PATH 04</span>
+                <h2>Railway Exam</h2>
+                <p>Prepare for RRB NTPC, Group D, and ALP exams with our curated technical and non-technical study kits.
+                    Master General Awareness and Science concepts with ease.</p>
+                <div class="standards-badge">RRB NTPC • Group D</div>
+                <button class="path-btn" onclick="window.location.href='railway.html'">Learn<i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="journey-image">
+                <img src="../assets/images/Social media customers troll Vande Bharat trains 'gracefully' crossing paths on parallel trac___.jpeg" alt="Railway Exam Prep">
+            </div>
+        </div>
+    </section>
+
+    <section id="ssc" class="path-section alt-bg">
+        <div class="container journey-row reverse">
+            <div class="journey-text">
+                <span class="path-label">PATH 05</span>
+                <h2>SSC Exam</h2>
+                <p>Join the Central Government services by cracking SSC CGL, CHSL, and MTS exams. Our resources cover
+                    General Intelligence, English, and General Awareness in depth.</p>
+                <div class="standards-badge">CGL • CHSL • MTS</div>
+                <button class="path-btn" onclick="window.location.href='ssc.html'">Learn<i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="journey-image">
+                <img src="../assets/images/ssc.jpeg" alt="SSC Exam Prep">
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section class="featured-quizzes-section">
+        <div class="container">
+            <h2>Featured Quizzes</h2>
+            <p class="section-subtitle">Practice with our most popular quizzes</p>
+            <div id="quizGrid" class="quiz-grid"></div>
+        </div>
+    </section>
+
+    <style>
+        .featured-quizzes-section {
+            padding: 60px 20px; background: #f9f9f9;
+        }
+        
+        .featured-quizzes-section h2 {
+            font-size: 32px; font-weight: 700; text-align: center; margin-bottom: 10px; color: #333;
+        }
+        
+        .section-subtitle {
+            text-align: center; color: #666; margin-bottom: 40px; font-size: 16px;
+        }
+        
+        .quiz-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px; margin-top: 30px;
+        }
+        
+        .quiz-card {
+            background: white; border-radius: 8px; padding: 25px; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s;
+            border-left: 4px solid #667eea;
+        }
+        
+        .quiz-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        .quiz-card h3 { margin: 0 0 10px; color: #667eea; font-size: 20px; }
+        
+        .quiz-meta {
+            display: flex; justify-content: space-between; font-size: 14px; color: #666;
+            margin: 15px 0; padding-bottom: 15px; border-bottom: 1px solid #eee;
+        }
+        
+        .badge {
+            display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 12px;
+            font-weight: 600; margin-right: 5px;
+        }
+        
+        .badge-easy { background: #e8f5e9; color: #2e7d32; }
+        .badge-medium { background: #fff3e0; color: #e65100; }
+        .badge-hard { background: #ffebee; color: #c62828; }
+        
+        .quiz-description { color: #666; font-size: 14px; margin: 15px 0; }
+        
+        .quiz-info {
+            display: flex; justify-content: space-between; align-items: center;
+            margin: 15px 0; font-size: 13px; color: #888;
+        }
+        
+        .btn-start {
+            width: 100%; padding: 12px; background: #667eea; color: white;
+            border: none; border-radius: 5px; cursor: pointer; font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-start:hover { background: #764ba2; }
+        
+        .loading { text-align: center; padding: 40px 20px; color: #666; }
+        .spinner {
+            border: 4px solid #e0e0e0; border-top: 4px solid #667eea; border-radius: 50%;
+            width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Link</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="question_bank.html">Question Bank</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="faq.html">FAQs & Help</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <div><i class="fa-solid fa-location-dot"></i> 111/1,Kamarajar Street, Chennai</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 9360649867</div>
+                    <div><i class="fa-solid fa-envelope"></i> help@mystudylife.com</div>
+                </div>
+                <div class="social-icons-footer">
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Subscribe to our Newsletter</h3>
+                <div class="newsletter-box">
+                    <p>Subscribe now and join our growing community of learners committed to lifelong education!</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+                <div class="copyright">
+                    &copy; My Study Life, All Right Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let allQuizzes = [];
+        
+        // Initialize page
+        async function initDashboard() {
+            // Check if user is logged in
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load quizzes from API
+            await loadQuizzesFromAPI();
+            displayFeaturedQuizzes();
+        }
+
+        // Fetch quizzes from API
+        async function loadQuizzesFromAPI() {
+            try {
+                const result = await getAllQuizzes();
+                if (result.success) {
+                    allQuizzes = result.data.map(quiz => ({
+                        id: quiz.id,
+                        grade: quiz.grade,
+                        subject: quiz.subject,
+                        difficulty: getDifficultyLevel(quiz.title),
+                        title: quiz.title,
+                        questions: quiz.total_questions,
+                        description: quiz.description
+                    }));
+                    console.log('Loaded', allQuizzes.length, 'quizzes from API');
+                } else {
+                    console.error('Failed to load quizzes:', result.error);
+                    allQuizzes = [];
+                }
+            } catch (error) {
+                console.error('Error loading quizzes:', error);
+                allQuizzes = [];
+            }
+        }
+
+        // Extract difficulty from title
+        function getDifficultyLevel(title) {
+            if (title.includes('Easy')) return 'Easy';
+            if (title.includes('Medium')) return 'Medium';
+            if (title.includes('Hard')) return 'Hard';
+            return 'Easy';
+        }
+
+        // Display featured quizzes (first 6)
+        function displayFeaturedQuizzes() {
+            const grid = document.getElementById('quizGrid');
+            
+            if (!grid) {
+                console.warn('Quiz grid element not found');
+                return;
+            }
+            
+            if (allQuizzes.length === 0) {
+                grid.innerHTML = '<div class="loading">No quizzes available.</div>';
+                return;
+            }
+
+            // Show first 6 quizzes
+            const featured = allQuizzes.slice(0, 6);
+
+            grid.innerHTML = featured.map((quiz) => `
+                <div class="quiz-card">
+                    <h3>${quiz.title}</h3>
+                    <div class="quiz-meta">
+                        <div>
+                            <span class="badge badge-${quiz.difficulty.toLowerCase()}">${quiz.difficulty}</span>
+                        </div>
+                        <div>Grade ${quiz.grade}</div>
+                    </div>
+                    <div class="quiz-description">${quiz.subject} | ${quiz.questions} Questions</div>
+                    <div class="quiz-info">
+                        <span><i class="fa-solid fa-question"></i> ${quiz.questions} Questions</span>
+                        <span><i class="fa-solid fa-timer"></i> 30 mins</span>
+                    </div>
+                    <button class="btn-start" onclick="startQuiz(${quiz.id}, '${quiz.title.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-play"></i> Start Quiz
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function startQuiz(quizId, quizTitle) {
+            // Store quiz ID and redirect to quiz page with direct link
+            localStorage.setItem('currentQuizId', quizId);
+            localStorage.setItem('currentQuizTitle', quizTitle);
+            window.location.href = 'quiz.html?id=' + quizId;
+        }
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+
+</body>
+
+</html>
